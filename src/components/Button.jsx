@@ -10,7 +10,7 @@ export default function Button({
   onClick,
   variant = "primary",
   icon = true,
-  type = "button", 
+  type = "button",
   className = "",
 }) {
   const base =
@@ -18,19 +18,29 @@ export default function Button({
 
   const variants = {
     primary:
-      "bg-[linear-gradient(135deg,var(--blue-1),var(--blue-2))] text-[#e2eaf4] border border-[rgba(17,138,178,0.4)] shadow-[0_0_20px_rgba(0,80,157,0.35)]",
-    outline: "bg-transparent text-white border border-[rgba(255,255,255,1)]",
+      "text-white border border-[var(--variable-3)] shadow-[0_10px_30px_rgba(0,80,157,0.18)]",
+
+    outline:
+      "bg-white text-[var(--text-main)] border border-[var(--text-secondary)]",
   };
 
   const content = (
     <motion.div
       className={`${base} ${variants[variant]} ${className}`}
+      style={
+        variant === "primary"
+          ? {
+              background:
+                "linear-gradient(135deg, var(--variable-1), var(--variable-2))",
+            }
+          : {}
+      }
       whileHover={{
         scale: 1.03,
         boxShadow:
           variant === "primary"
-            ? "0 0 40px rgba(17,138,178,0.6)"
-            : "0 0 20px rgba(255,255,255,0.6)",
+            ? "0 12px 35px rgba(17,138,178,0.28)"
+            : "0 8px 24px rgba(0,80,157,0.15)",
       }}
       whileTap={{ scale: 0.96 }}
     >
@@ -42,11 +52,32 @@ export default function Button({
       {/* ICON SLIDER */}
       {icon && (
         <div
-          className="absolute right-1 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 group-hover:right-[calc(100%-44px)] group-hover:rotate-45"
+          className="
+            absolute
+            right-1
+            flex
+            h-10
+            w-10
+            items-center
+            justify-center
+            rounded-full
+            transition-all
+            duration-500
+            group-hover:right-[calc(100%-44px)]
+            group-hover:rotate-45
+          "
           style={{
-            background: "#fff",
-            color: "#000",
-            boxShadow: "0 0 12px rgba(17,138,178,0.4)",
+            background:
+              variant === "outline"
+                ? "var(--variable-1)"
+                : "var(--bg-main)",
+
+            color:
+              variant === "outline"
+                ? "var(--bg-soft)"
+                : "var(--variable-2)",
+
+            boxShadow: "0 4px 14px rgba(0,80,157,0.18)",
           }}
         >
           <ArrowUpRight size={16} />
@@ -58,7 +89,7 @@ export default function Button({
         className="absolute inset-0 rounded-full"
         style={{
           background:
-            "linear-gradient(110deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%)",
+            "linear-gradient(110deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%)",
         }}
         animate={{ x: ["-120%", "200%"] }}
         transition={{
@@ -75,8 +106,17 @@ export default function Button({
     return <Link to={href}>{content}</Link>;
   }
 
-  return <button type={type} onClick={onClick} style={{ background: "none", border: "none", padding: 0 }}>{content}</button>;
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      style={{
+        background: "none",
+        border: "none",
+        padding: 0,
+      }}
+    >
+      {content}
+    </button>
+  );
 }
-
-
-
